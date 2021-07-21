@@ -1,6 +1,7 @@
 <?php
     namespace App\Services\Auth;
     use App\Http\Requests\Api\V1\VerifyCode\VerifyCodeRequest;
+    use App\Http\Resources\Api\V1\Errors\UnauthorizedResource;
     use App\Http\Resources\Auth\UserResource;
     use App\Interfaces\AuthInterface;
     use App\Repository\Eloquent\UserRepository;
@@ -8,6 +9,7 @@
     use App\Repository\VerifyCodeRepositoryInterface;
     use Illuminate\Http\Request;
     use Illuminate\Http\JsonResponse;
+    use Illuminate\Http\Resources\Json\JsonResource;
 
     class JwtService implements AuthInterface
     {
@@ -42,7 +44,7 @@
                 }
                 $credentials = request(['phone']);
                 if (! $token = auth('api')->login($user)) {
-                    return response()->json(['error' => 'Unauthorized'], 401);
+                    return response()->json(new UnauthorizedResource($request), 401);
                 }
                 return $this->respondWithToken($token);
             }
@@ -51,7 +53,11 @@
 
         public function me():JsonResponse
         {
-            return response()->json(new UserResource(auth('api')->user()));
+            if(auth('api')->check())
+            {
+                return response()->json(new UserResource(auth('api')->user()));
+            }
+            return response()->json(new UnauthorizedResource(auth('api')->user()), 401);
         }
 
         public function logout():JsonResponse

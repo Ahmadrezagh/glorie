@@ -15,8 +15,13 @@ class UserResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'name' => $this->resource->name,
-            'email' => $this->resource->email
+            'name' => $this->resource->name ?? null,
+            'profile' => $this->resource->profile ? url($this->resource->profile) : null ,
+            'referral_code' => $this->resource->referral_code,
+            'phone' => $this->resource->phone,
+            'wallet' => $this->resource->wallet,
+            'is_referred' => $this->resource->referred_code ? true : false ,
+            'is_registered' => $this->resource->name ? true : false
         ];
     }
 }

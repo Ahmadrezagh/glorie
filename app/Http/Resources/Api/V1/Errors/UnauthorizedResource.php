@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Api\V1\VerifyCode;
+namespace App\Http\Resources\Api\V1\Errors;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GenerateCodeResource extends JsonResource
+class UnauthorizedResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -12,10 +12,10 @@ class GenerateCodeResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request = null)
     {
         return [
-            'message' => 'رمز عبور یکبار مصرف با موفقیت ارسال شد'
+            'error' => 'Unauthorized'
         ];
     }
 }

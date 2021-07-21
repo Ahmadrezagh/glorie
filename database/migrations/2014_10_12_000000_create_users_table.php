@@ -17,9 +17,11 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('referral_code')->unique();
+            $table->string('referred_code')->nullable();
             $table->string('username')->unique()->nullable();
             $table->string('profile')->nullable();
             $table->string('phone')->unique();
+            $table->string('wallet')->default(0);
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
