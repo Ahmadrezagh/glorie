@@ -59,8 +59,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                    'profile' => $profile
                ]);
            }
-           //return success message instead
-           return response()->json(new UserResource(auth('api')->user()));
+           return response()->json([
+               'error' => 'پروفایل با موفقیت ویرایش شد'
+           ],200);
        }
         return response()->json(new UnauthorizedResource($request), 401);
     }
@@ -69,14 +70,28 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         if(auth('api')->check()) {
             $user = $this->model->newQuery()->find(auth('api')->user()->id);
-            if($user->referral_code == null)
+            if($user->referred_code == null)
             {
-                $user->update([
-                    'referred_code' => $request->referral_code
-                ]);
+                if($this->model->newQuery()
+                    ->where('referral_code','=',$request->referral_code)
+                    ->where('id','!=',auth('api')->user()->id)
+                    ->first()
+                ){
+                    $user->update([
+                        'referred_code' => $request->referral_code
+                    ]);
+                    return response()->json([
+                        'message' => 'کد معرف با موفقیت برای شما ثبت شد'
+                    ],200);
+                }
+                return response()->json([
+                    'error' => 'کد معرف نامعتبر می باشد'
+                ],422);
             }
-            // return fail
+            return response()->json([
+                'error' => 'شما از کد معرف استفاده کرده اید'
+            ],422);
         }
-        return response()->json(new UserResource(auth('api')->user()));
+        return response()->json(new UnauthorizedResource($request), 401);
     }
 }

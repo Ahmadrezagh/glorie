@@ -15,7 +15,7 @@ class UnauthorizedResource extends JsonResource
     public function toArray($request = null)
     {
         return [
-            'error' => 'Unauthorized'
+            'error' => 'ورود نامعتبر'
         ];
     }
 }
