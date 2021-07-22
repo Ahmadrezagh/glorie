@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\V1\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\User\SendSmsRequest;
 use App\Http\Requests\Api\V1\User\UpdateProfileRequest;
-use App\Http\Requests\Api\V1\VerifyCode\generateCodeRequest;
+use App\Http\Requests\Api\V1\VerifyCode\GenerateCodeRequest;
 use App\Http\Requests\Api\V1\VerifyCode\VerifyCodeRequest;
 use App\Interfaces\AuthInterface;
 use App\Interfaces\SmsInterface;
