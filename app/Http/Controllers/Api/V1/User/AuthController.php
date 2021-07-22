@@ -26,7 +26,7 @@ class AuthController extends Controller
         $this->user = $user;
     }
 
-    public function generateCode(generateCodeRequest $request)
+    public function generateCode(GenerateCodeRequest $request)
     {
         return $this->verifyCode->generateCode($request);
     }
